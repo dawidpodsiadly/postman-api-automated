@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "dd7af269-8d31-4b75-ab9f-6fe9db28a568",
+		"name": "Auth API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20702890"
+	},
+	"item": [
+		{
+			"name": "/auth",
+			"item": [
+				{
+					"name": "GET /auth - Invalid Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when Invalid Token\", function () {",
+									"    pm.response.to.have.status(401);",
+									"    pm.expect(pm.response.json().message).to.include('Invalid token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalidToken"
+							}
+						],
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /auth - Valid Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}"
+							}
+						],
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /auth - No Token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth - Invalid Credentials",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"invalid@example.com\", \"password\": \"wrongpassword\"}"
+						},
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth - Valid Credentials",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"apitesteradmin@tests.com\", \"password\": \"chocolate\"}"
+						},
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth - No Auth",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /auth - User Deactivated",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"deactivated@example.com\", \"password\": \"password123\"}"
+						},
+						"url": "{{baseUrl}}/auth"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/users",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"try {",
+					"    const response = await pm.sendRequest({",
+					"        url: pm.variables.get(\"baseUrl\") + \"/auth\",",
+					"        method: \"POST\",",
+					"        headers: {",
+					"            \"Content-Type\": \"application/json\",",
+					"        },",
+					"        body: {",
+					"            mode: \"raw\",",
+					"            raw: JSON.stringify({",
+					"                email: \"apitesteradmin@tests.com\",",
+					"                password: \"chocolate\"",
+					"            }),",
+					"            options: {",
+					"                raw: {",
+					"                    language: \"json\"",
+					"                }",
+					"            }",
+					"        }",
+					"    });",
+					"",
+					"    const adminToken = response.json().token;",
+					"    pm.collectionVariables.set(\"adminToken\", \"Bearer \" + adminToken);",
+					"",
+					"} catch (err) {",
+					"    console.error(\"Request failed:\", err);",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:3050",
+			"type": "string"
+		},
+		{
+			"key": "apiTesterAdmin",
+			"value": "apitesteradmin@tests.com",
+			"type": "string"
+		},
+		{
+			"key": "apiTesterNotAdmin",
+			"value": "apitesternotadmin@tests.com",
+			"type": "string"
+		},
+		{
+			"key": "apiTesterDeactivated",
+			"value": "apitesterdeactivated@tests.com",
+			"type": "string"
+		},
+		{
+			"key": "apiTesterNotExisting",
+			"value": "apitesternotexisting@tests.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "chocolate",
+			"type": "string"
+		},
+		{
+			"key": "adminToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
