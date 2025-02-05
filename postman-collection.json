@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "dd7af269-8d31-4b75-ab9f-6fe9db28a568",
-		"name": "Auth API Tests",
+		"name": "API Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "20702890"
 	},
@@ -10,162 +10,4137 @@
 			"name": "/auth",
 			"item": [
 				{
-					"name": "GET /auth - Invalid Token",
-					"event": [
+					"name": "GET /auth",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Should return 401 when Invalid Token\", function () {",
-									"    pm.response.to.have.status(401);",
-									"    pm.expect(pm.response.json().message).to.include('Invalid token');",
-									"});"
+							"name": "Should return 401 when Invalid Token - GET /auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when Invalid Token - GET /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(401);",
+											"    pm.expect(responseBody.message).to.eql('Invalid token');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{invalidAuthToken}}"
+									}
 								],
-								"type": "text/javascript",
-								"packages": {}
-							}
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
 						},
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+							"name": "Should return 200 and Token when Valid Token - GET /auth",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Token when Valid Token - GET /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"    pm.expect(responseBody.message).to.eql('Valid token');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}"
+									}
 								],
-								"type": "text/javascript",
-								"packages": {}
-							}
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 401 when Token Not Provided - GET /auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when Token Not Provided - GET /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(401);",
+											"    pm.expect(responseBody.message).to.eql('Token not provided or is wrong');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": ""
+									}
+								],
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
 						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer invalidToken"
-							}
-						],
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "GET /auth - Valid Token",
-					"event": [
+					"name": "POST /auth",
+					"item": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+							"name": "Should return 401 when Invalid Credentials - POST /auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when Invalid Credentials - POST /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(401);",
+											"    pm.expect(responseBody.message).to.eql('Invalid email or password');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{apiTesterNotExisting}}\", \n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Token when Valid Credentials - POST /auth",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Token when Valid Credentials - POST /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"    pm.expect(responseBody).to.have.property(\"token\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{apiTesterAdmin}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 401 when no Auth  - POST /auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Auth  - POST /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(401);",
+											"    pm.expect(responseBody.message).to.eql('Invalid email or password');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 403 when User is Deactivated - POST /auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 403 when User is Deactivated - POST /auth\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(403);",
+											"    pm.expect(responseBody.message).to.eql('Account is not activated');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
 								],
-								"type": "text/javascript",
-								"packages": {}
-							}
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{apiTesterDeactivated}}\", \n    \"password\": \"{{password}}\"\n}"
+								},
+								"url": "{{baseUrl}}/auth"
+							},
+							"response": []
 						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}"
-							}
-						],
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
-				},
-				{
-					"name": "GET /auth - No Token",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": ""
-							}
-						],
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
-				},
-				{
-					"name": "POST /auth - Invalid Credentials",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"email\": \"invalid@example.com\", \"password\": \"wrongpassword\"}"
-						},
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
-				},
-				{
-					"name": "POST /auth - Valid Credentials",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"email\": \"apitesteradmin@tests.com\", \"password\": \"chocolate\"}"
-						},
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
-				},
-				{
-					"name": "POST /auth - No Auth",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{}"
-						},
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
-				},
-				{
-					"name": "POST /auth - User Deactivated",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"email\": \"deactivated@example.com\", \"password\": \"password123\"}"
-						},
-						"url": "{{baseUrl}}/auth"
-					},
-					"response": []
+					]
 				}
 			]
 		},
 		{
 			"name": "/users",
-			"item": []
+			"item": [
+				{
+					"name": "GET /users",
+					"item": [
+						{
+							"name": "Should return 401 when no Token - GET /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Token - GET /users\", function () {",
+											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.body(\"Unauthorized\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/users"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 403 when as Not Admin User - GET /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 403 when as Not Admin User - GET /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(403);",
+											"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{notAdminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Contain User IDs as Admin User - GET /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Contain User IDs as Admin User - GET /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    const firstUserId = pm.variables.get(\"firstUserId\");",
+											"    const secondUserId = pm.variables.get(\"secondUserId\");",
+											"",
+											"    pm.response.to.have.status(200);",
+											"    pm.expect(responseBody).to.be.an(\"array\");",
+											"",
+											"    const userIds = responseBody.map((user) => user._id);",
+											"    pm.expect(userIds).to.include(firstUserId);",
+											"    pm.expect(userIds).to.include(secondUserId);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// First User",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}",
+											"",
+											"// Second User",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"secondUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET /users/id",
+					"item": [
+						{
+							"name": "Should return 401 when no Token - GET /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Token - GET /users/id\", function () {",
+											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.body(\"Unauthorized\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 404 when Id Not Found - GET /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 404 when Id Not Found - GET /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(404);",
+											"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users/666b5bfd8e3c464090cb69b8"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Invalid User Id Format - GET /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Invalid User Id Format - GET /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users/invalidUserIdFormat"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Contain User Data as Not Admin User - GET /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Contain User Data as Not Admin User - GET /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    pm.expect(responseBody.name).to.eql(pm.variables.get(\"userName\"));",
+											"    pm.expect(responseBody.surname).to.eql(pm.variables.get(\"userSurname\"));",
+											"    pm.expect(responseBody.email).to.eql(pm.variables.get(\"userEmail\"));",
+											"    pm.expect(responseBody.phoneNumber).to.eql(pm.variables.get(\"userPhoneNumber\"));",
+											"    pm.expect(responseBody.birthDate).to.include(pm.variables.get(\"userBirthDate\"));",
+											"    pm.expect(responseBody.contract.type).to.eql(pm.variables.get(\"userContractType\"));",
+											"    pm.expect(responseBody.contract.salary).to.eql(Number(pm.variables.get(\"userContractSalary\")));",
+											"    pm.expect(responseBody.contract.position).to.eql(pm.variables.get(\"userContractPosition\"));",
+											"    pm.expect(responseBody.contract.startTime).to.include(pm.variables.get(\"userContractStartTime\"));",
+											"    pm.expect(responseBody.contract.endTime).to.include(pm.variables.get(\"userContractEndTime\"));",
+											"    pm.expect(responseBody.notes).to.eql(pm.variables.get(\"userNotes\"));",
+											"    pm.expect(responseBody.isAdmin).to.eql(pm.variables.get(\"userIsAdmin\"));",
+											"    pm.expect(responseBody.isActivated).to.eql(pm.variables.get(\"userIsActivated\"));",
+											"    pm.expect(responseBody._id).to.eql(pm.variables.get(\"firstUserId\"));",
+											"    pm.expect(responseBody).to.have.property('lastUpdated');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const userData = {",
+											"        email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"        password: \"SecurePassword123\",",
+											"        name: \"TesterName\",",
+											"        surname: \"TesterSurname\",",
+											"        phoneNumber: \"123456789\",",
+											"        birthDate: \"1990-01-01\",",
+											"        contract: {",
+											"            type: \"Employment\",",
+											"            salary: \"50000\",",
+											"            position: \"Storekeeper\",",
+											"            startTime: \"2023-01-01\",",
+											"            endTime: \"2025-01-01\"",
+											"        },",
+											"        notes: \"Sample note text for the user\",",
+											"        isAdmin: true,",
+											"        isActivated: true",
+											"    };",
+											"",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify(userData),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"    pm.variables.set(\"userEmail\", userData.email);",
+											"    pm.variables.set(\"userName\", userData.name);",
+											"    pm.variables.set(\"userSurname\", userData.surname);",
+											"    pm.variables.set(\"userPhoneNumber\", userData.phoneNumber);",
+											"    pm.variables.set(\"userBirthDate\", userData.birthDate);",
+											"    pm.variables.set(\"userContractType\", userData.contract.type);",
+											"    pm.variables.set(\"userContractSalary\", userData.contract.salary);",
+											"    pm.variables.set(\"userContractPosition\", userData.contract.position);",
+											"    pm.variables.set(\"userContractStartTime\", userData.contract.startTime);",
+											"    pm.variables.set(\"userContractEndTime\", userData.contract.endTime);",
+											"    pm.variables.set(\"userNotes\", userData.notes);",
+											"    pm.variables.set(\"userIsAdmin\", userData.isAdmin);",
+											"    pm.variables.set(\"userIsActivated\", userData.isActivated);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"    console.log(\"Error details:\", err.stack);",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{notAdminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Contain User Data as Admin User - GET /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Contain User Data as Admin User - GET /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    pm.expect(responseBody.name).to.eql(pm.variables.get(\"userName\"));",
+											"    pm.expect(responseBody.surname).to.eql(pm.variables.get(\"userSurname\"));",
+											"    pm.expect(responseBody.email).to.eql(pm.variables.get(\"userEmail\"));",
+											"    pm.expect(responseBody.phoneNumber).to.eql(pm.variables.get(\"userPhoneNumber\"));",
+											"    pm.expect(responseBody.birthDate).to.include(pm.variables.get(\"userBirthDate\"));",
+											"    pm.expect(responseBody.contract.type).to.eql(pm.variables.get(\"userContractType\"));",
+											"    pm.expect(responseBody.contract.salary).to.eql(Number(pm.variables.get(\"userContractSalary\")));",
+											"    pm.expect(responseBody.contract.position).to.eql(pm.variables.get(\"userContractPosition\"));",
+											"    pm.expect(responseBody.contract.startTime).to.include(pm.variables.get(\"userContractStartTime\"));",
+											"    pm.expect(responseBody.contract.endTime).to.include(pm.variables.get(\"userContractEndTime\"));",
+											"    pm.expect(responseBody.notes).to.eql(pm.variables.get(\"userNotes\"));",
+											"    pm.expect(responseBody.isAdmin).to.eql(pm.variables.get(\"userIsAdmin\"));",
+											"    pm.expect(responseBody.isActivated).to.eql(pm.variables.get(\"userIsActivated\"));",
+											"    pm.expect(responseBody._id).to.eql(pm.variables.get(\"firstUserId\"));",
+											"    pm.expect(responseBody).to.have.property('lastUpdated');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const userData = {",
+											"        email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"        password: \"SecurePassword123\",",
+											"        name: \"TesterName\",",
+											"        surname: \"TesterSurname\",",
+											"        phoneNumber: \"123456789\",",
+											"        birthDate: \"1990-01-01\",",
+											"        contract: {",
+											"            type: \"Employment\",",
+											"            salary: \"50000\",",
+											"            position: \"Storekeeper\",",
+											"            startTime: \"2023-01-01\",",
+											"            endTime: \"2025-01-01\"",
+											"        },",
+											"        notes: \"Sample note text for the user\",",
+											"        isAdmin: true,",
+											"        isActivated: true",
+											"    };",
+											"",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify(userData),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"    pm.variables.set(\"userEmail\", userData.email);",
+											"    pm.variables.set(\"userName\", userData.name);",
+											"    pm.variables.set(\"userSurname\", userData.surname);",
+											"    pm.variables.set(\"userPhoneNumber\", userData.phoneNumber);",
+											"    pm.variables.set(\"userBirthDate\", userData.birthDate);",
+											"    pm.variables.set(\"userContractType\", userData.contract.type);",
+											"    pm.variables.set(\"userContractSalary\", userData.contract.salary);",
+											"    pm.variables.set(\"userContractPosition\", userData.contract.position);",
+											"    pm.variables.set(\"userContractStartTime\", userData.contract.startTime);",
+											"    pm.variables.set(\"userContractEndTime\", userData.contract.endTime);",
+											"    pm.variables.set(\"userNotes\", userData.notes);",
+											"    pm.variables.set(\"userIsAdmin\", userData.isAdmin);",
+											"    pm.variables.set(\"userIsActivated\", userData.isActivated);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"    console.log(\"Error details:\", err.stack);",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST /users",
+					"item": [
+						{
+							"name": "Should return 401 when no Token - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Token - POST /users\", function () {",
+											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.body(\"Unauthorized\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 403 as Not Admin User - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 403 as Not Admin User - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(403);",
+											"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{notAdminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Email already Exists - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Email already Exists - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('User with this email already exists');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{apiTesterAdmin}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"1234567890\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Contract End Time is earlier than Start Time - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Contract End Time is earlier than Start Time - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('End time cannot be earlier than start time');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"1234567890\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"1939-09-10\",\n    \"endTime\": \"1410-07-15\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Create new User as Admin User - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Create new User as Admin User - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"    ",
+											"    pm.expect(responseBody).to.have.property('id');",
+											"    pm.expect(responseBody.message).to.eql(`User has been created with id = ${responseBody.id}`);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"1234567890\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Required Field is Missing (Name, Surname, Email) - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Required Field is Missing (Name, Surname, Email) - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    ",
+											"    pm.expect(responseBody.message).to.eql('User validation failed: name: Path `name` is required., surname: Path `surname` is required., email: Path `email` is required.');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"1234567890\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and isAdmin and isActivated Should be `false` when Not Passed - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and isAdmin and isActivated Should be `false` when Not Passed - POST /users\", async function () {",
+											"    const responseBody = pm.response.json();",
+											"    const userId = responseBody.id;",
+											"    ",
+											"    pm.variables.set('firstUserId', userId);",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    try {",
+											"        const getUserResponse = await pm.sendRequest({",
+											"            url: `${pm.variables.get(\"baseUrl\")}/users/${userId}`,",
+											"            method: 'GET',",
+											"            header: [",
+											"                {",
+											"                    key: \"Authorization\",",
+											"                    value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"                }",
+											"            ]",
+											"        });",
+											"",
+											"        pm.expect(getUserResponse.body.isAdmin).to.equal(false);",
+											"        pm.expect(getUserResponse.body.isActivated).to.equal(false);",
+											"    } catch (err) {",
+											"        console.error(\"Request failed:\", err);",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Phone Number `< 9` - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Phone Number `< 9` - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"12345689\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Phone Number `> 14` - POST /users Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Phone Number `> 14` - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"123456789012345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Password is `< 9` Chars - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Password is `< 9` Chars - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Password must be at least 9 characters long');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"12345678\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "lastUpdated Field Should Be Set to Date.now even if Field passed in request - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"lastUpdated Field Should Be Set to Date.now even if Field passed in request - POST /users\", async function () {",
+											"    const responseBody = pm.response.json();",
+											"    const userId = responseBody.id;",
+											"    ",
+											"    pm.variables.set('firstUserId', userId);",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    try {",
+											"        const getUserResponse = await pm.sendRequest({",
+											"            url: `${pm.variables.get(\"baseUrl\")}/users/${userId}`,",
+											"            method: 'GET',",
+											"            header: [",
+											"                {",
+											"                    key: \"Authorization\",",
+											"                    value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"                }",
+											"            ]",
+											"        });",
+											"",
+											"        pm.expect(getUserResponse.lastUpdated).to.not.eql(lastUpdatedFromVariables);",
+											"        ",
+											"    } catch (err) {",
+											"        console.error(\"Request failed:\", err);",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true,\n  \"lastUpdated\": \"{{lastUpdated}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"randomPosition\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"randomType\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to birthDate Field - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to birthDate Field - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"dsds\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to startTime Field - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to startTime Field - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"ds\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to endTime Field - POST /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to endTime Field - POST /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"pm.variables.set('lastUpdated', \"1920-08-12\");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"dsadsa\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users?Authorization",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT /users/id",
+					"item": [
+						{
+							"name": "Should return 401 when no Token - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Token - PUT /users\", function () {",
+											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.body(\"Unauthorized\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 403 as Not Admin User - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 403 as Not Admin User - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(403);",
+											"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{notAdminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 404 when Id Not Found - PUT /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 404 when Id Not Found - PUT /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(404);",
+											"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/666b5bfd8e3c464090cb69b8"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Invalid User Id Format - PUT /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Invalid User Id Format - PUT /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/invalidUserIdFormat"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Email already Exists - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Email already Exists - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('User with this email already exists');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{apiTesterAdmin}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Contract End Time is earlier than Start Time - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Contract End Time is earlier than Start Time - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('End time cannot be earlier than start time');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"1410-07-15\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Update User as Activated Admin User - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Update User as Activated Admin User - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"    const userId = pm.variables.get(\"firstUserId\");",
+											"    pm.expect(responseBody.message).to.eql(`User with id = ${userId} has been updated`);",
+											"",
+											"    pm.sendRequest({",
+											"        url: `${pm.variables.get(\"baseUrl\")}/users/${userId}`,",
+											"        method: 'GET',",
+											"        header: {",
+											"            \"Authorization\": pm.collectionVariables.get(\"adminAuthToken\")",
+											"        }",
+											"    }, function (err, res) {",
+											"        if (err) {",
+											"            console.error(\"Request failed:\", err);",
+											"            return;",
+											"        }",
+											"",
+											"        const getUserResponse = res.json();",
+											"",
+											"        pm.expect(getUserResponse.name).to.eql(pm.variables.get(\"userName\"));",
+											"        pm.expect(getUserResponse.surname).to.eql(pm.variables.get(\"userSurname\"));",
+											"        pm.expect(getUserResponse.email).to.eql(pm.variables.get(\"userEmail\"));",
+											"        pm.expect(getUserResponse.phoneNumber).to.eql(pm.variables.get(\"userPhoneNumber\"));",
+											"        pm.expect(getUserResponse.birthDate).to.include(pm.variables.get(\"userBirthDate\"));",
+											"        pm.expect(getUserResponse.contract.type).to.eql(pm.variables.get(\"userContractType\"));",
+											"        pm.expect(getUserResponse.contract.salary).to.eql(Number(pm.variables.get(\"userContractSalary\")));",
+											"        pm.expect(getUserResponse.contract.position).to.eql(pm.variables.get(\"userContractPosition\"));",
+											"        pm.expect(getUserResponse.contract.startTime).to.include(pm.variables.get(\"userContractStartTime\"));",
+											"        pm.expect(getUserResponse.contract.endTime).to.include(pm.variables.get(\"userContractEndTime\"));",
+											"        pm.expect(getUserResponse.notes).to.eql(pm.variables.get(\"userNotes\"));",
+											"        pm.expect(getUserResponse.isAdmin).to.eql(pm.variables.get(\"userIsAdmin\"));",
+											"        pm.expect(getUserResponse.isActivated).to.eql(pm.variables.get(\"userIsActivated\"));",
+											"        pm.expect(getUserResponse._id).to.eql(userId);",
+											"        pm.expect(getUserResponse).to.have.property('lastUpdated');",
+											"    });",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}",
+											"",
+											"// Random data for PUT",
+											"",
+											"pm.variables.set(\"userEmail\", \"updatedtestuser@postman.com\");",
+											"pm.variables.set(\"userName\", \"updatedJohn\");",
+											"pm.variables.set(\"userSurname\", \"updatedDoe\");",
+											"pm.variables.set(\"userPhoneNumber\", \"0987654321\");",
+											"pm.variables.set(\"userBirthDate\", \"2001-01-01\");",
+											"pm.variables.set(\"userContractType\", \"Employment\");",
+											"pm.variables.set(\"userContractSalary\", \"4500\");",
+											"pm.variables.set(\"userContractPosition\", \"Accountant\");",
+											"pm.variables.set(\"userContractStartTime\", \"2025-01-01\");",
+											"pm.variables.set(\"userContractEndTime\", \"2025-02-02\");",
+											"pm.variables.set(\"userNotes\", \"This is updated sample note for the user.\");",
+											"pm.variables.set(\"userIsAdmin\", false);",
+											"pm.variables.set(\"userIsActivated\", false);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"2023-07-15\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Phone Number `< 9` - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Phone Number `< 9` - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"12345689\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Phone Number `> 14` - PUT /users Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Phone Number `> 14` - PUT /users Copy\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"SecurePassword123\",\n  \"phoneNumber\": \"123456890123456\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Password is `< 9` Chars - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Password is `< 9` Chars - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Password must be at least 9 characters long');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"12345678\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "lastUpdated Field Should Be Set to Date.now even if Field passed in request- PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"lastUpdated Field Should Be Set to Date.now even if Field passed in request- PUT /users\", async function () {",
+											"    const responseBody = pm.response.json();",
+											"    const userId = responseBody.id;",
+											"    ",
+											"    pm.variables.set('firstUserId', userId);",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    try {",
+											"        const getUserResponse = await pm.sendRequest({",
+											"            url: `${pm.variables.get(\"baseUrl\")}/users/${userId}`,",
+											"            method: 'GET',",
+											"            header: [",
+											"                {",
+											"                    key: \"Authorization\",",
+											"                    value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"                }",
+											"            ]",
+											"        });",
+											"",
+											"        pm.expect(getUserResponse.lastUpdated).to.not.eql(lastUpdatedFromVariables);",
+											"        ",
+											"    } catch (err) {",
+											"        console.error(\"Request failed:\", err);",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true,\n  \"lastUpdated\": \"{{lastUpdated}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"randomPosition\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - PUT /users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - PUT /users\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1990-01-01\",\n  \"contract\": {\n    \"type\": \"randomType\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to birthDate Field - PUT /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to birthDate Field - PUT /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"dsds\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2023-01-01\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to startTime Field - PUT /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to startTime Field - PUT /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"ds\",\n    \"endTime\": \"2025-01-01\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Trying to Add something Other than Date to endTime Field - PUT /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Trying to Add something Other than Date to endTime Field - PUT /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    ",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomEmail', Math.random().toString(36).substring(2, 12) + \"@postman.com\");",
+											"",
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"randomPassword\",\n  \"phoneNumber\": \"1234567890345\",\n  \"birthDate\": \"1999-01-01\",\n  \"contract\": {\n    \"type\": \"Mandate\",\n    \"salary\": 50000,\n    \"position\": \"IT\",\n    \"startTime\": \"2022-01-01\",\n    \"endTime\": \"dsadsa\"\n  },\n  \"notes\": \"Sample note text for the user, with more characters to fill up the field.\",\n  \"isAdmin\": true,\n  \"isActivated\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE /users/id",
+					"item": [
+						{
+							"name": "Should return 401 when no Token - DELETE /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401 when no Token - DELETE /users/id\", function () {",
+											"    pm.response.to.have.status(401);",
+											"    pm.response.to.have.body(\"Unauthorized\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 403 as Not Admin User - DELETE /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 403 as Not Admin User - DELETE /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(403);",
+											"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{notAdminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 200 and Delete User as Admin User - DELETE /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and Delete User as Admin User - DELETE /users/id\", function (done) {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(200);",
+											"",
+											"    const userId = pm.variables.get(\"firstUserId\");",
+											"    pm.expect(responseBody.message).to.eql(`User with id = ${userId} has been deleted`);",
+											"",
+											"    pm.sendRequest({",
+											"        url: `${pm.variables.get(\"baseUrl\")}/users/${userId}`,",
+											"        method: 'GET',",
+											"        header: {",
+											"            \"Authorization\": pm.collectionVariables.get(\"adminAuthToken\")",
+											"        }",
+											"    }, function (err, res) {",
+											"        if (err) {",
+											"            console.error(\"Request failed:\", err);",
+											"            return done();",
+											"        }",
+											"",
+											"        try {",
+											"            pm.expect(res).to.have.property(\"code\", 404);",
+											"            pm.expect(res.json().message).to.include(`User with id = ${userId} not found`);",
+											"        } catch (error) {",
+											"            done(error);",
+											"        }",
+											"",
+											"        done();",
+											"    });",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/{{firstUserId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 404 when Id Not Found - DELETE /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 404 when Id Not Found - DELETE /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(404);",
+											"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/666b5bfd8e3c464090cb69b8"
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 400 when Invalid User Id Format - DELETE /users/id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 400 when Invalid User Id Format - DELETE /users/id\", function () {",
+											"    const responseBody = pm.response.json();",
+											"    pm.response.to.have.status(400);",
+											"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"try {",
+											"    const response = await pm.sendRequest({",
+											"        url: pm.variables.get(\"baseUrl\") + \"/users\",",
+											"        method: \"POST\",",
+											"        header: [",
+											"            {",
+											"                key: \"Content-Type\",",
+											"                value: \"application/json\"",
+											"            },",
+											"            {",
+											"                key: \"Authorization\",",
+											"                value: pm.collectionVariables.get(\"adminAuthToken\")",
+											"            }",
+											"        ],",
+											"        body: {",
+											"            mode: \"raw\",",
+											"            raw: JSON.stringify({",
+											"                email: Math.random().toString(36).substring(2, 12) + \"@postman.com\",",
+											"                password: \"SecurePassword123\",",
+											"                name: \"TesterName\",",
+											"                surname: \"TesterSurname\",",
+											"                phoneNumber: \"123456789\",",
+											"                birthDate: \"1990-01-01\",",
+											"                contract: {",
+											"                    type: \"Employment\",",
+											"                    salary: \"50000\",",
+											"                    position: \"Storekeeper\",",
+											"                    startTime: \"2023-01-01\",",
+											"                    endTime: \"2025-01-01\"",
+											"                },",
+											"                notes: \"Sample note text for the user\",",
+											"                isAdmin: true,",
+											"                isActivated: true",
+											"            }),",
+											"            options: {",
+											"                raw: {",
+											"                    language: \"json\"",
+											"                }",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    const responseBody = response.json();",
+											"    pm.variables.set(\"firstUserId\", responseBody.id);",
+											"",
+											"} catch (err) {",
+											"    console.error(\"Request failed:\", err);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminAuthToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/users/invalidUserIdFormat"
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -175,18 +4150,19 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
+					"// Create Admin Token",
 					"try {",
 					"    const response = await pm.sendRequest({",
 					"        url: pm.variables.get(\"baseUrl\") + \"/auth\",",
 					"        method: \"POST\",",
-					"        headers: {",
+					"        header: {",
 					"            \"Content-Type\": \"application/json\",",
 					"        },",
 					"        body: {",
 					"            mode: \"raw\",",
 					"            raw: JSON.stringify({",
-					"                email: \"apitesteradmin@tests.com\",",
-					"                password: \"chocolate\"",
+					"                email: pm.collectionVariables.get(\"apiTesterAdmin\"),",
+					"                password: pm.collectionVariables.get(\"password\")",
 					"            }),",
 					"            options: {",
 					"                raw: {",
@@ -197,12 +4173,40 @@
 					"    });",
 					"",
 					"    const adminToken = response.json().token;",
-					"    pm.collectionVariables.set(\"adminToken\", \"Bearer \" + adminToken);",
+					"    pm.collectionVariables.set(\"adminAuthToken\", \"Bearer \" + adminToken);",
 					"",
 					"} catch (err) {",
 					"    console.error(\"Request failed:\", err);",
 					"}",
-					""
+					"",
+					"// Create Not Admin Token",
+					"try {",
+					"    const response = await pm.sendRequest({",
+					"        url: pm.variables.get(\"baseUrl\") + \"/auth\",",
+					"        method: \"POST\",",
+					"        header: {",
+					"            \"Content-Type\": \"application/json\",",
+					"        },",
+					"        body: {",
+					"            mode: \"raw\",",
+					"            raw: JSON.stringify({",
+					"                email: pm.collectionVariables.get(\"apiTesterNotAdmin\"),",
+					"                password: pm.collectionVariables.get(\"password\")",
+					"            }),",
+					"            options: {",
+					"                raw: {",
+					"                    language: \"json\"",
+					"                }",
+					"            }",
+					"        }",
+					"    });",
+					"",
+					"    const adminToken = response.json().token;",
+					"    pm.collectionVariables.set(\"notAdminAuthToken\", \"Bearer \" + adminToken);",
+					"",
+					"} catch (err) {",
+					"    console.error(\"Request failed:\", err);",
+					"}"
 				]
 			}
 		},
@@ -249,7 +4253,17 @@
 			"type": "string"
 		},
 		{
-			"key": "adminToken",
+			"key": "adminAuthToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "invalidAuthToken",
+			"value": "Bearer invalidToken",
+			"type": "string"
+		},
+		{
+			"key": "notAdminAuthToken",
 			"value": "",
 			"type": "string"
 		}
