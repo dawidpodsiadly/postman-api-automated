@@ -26,7 +26,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseBody = pm.response.json();",
+									"var responseBody = pm.response.json();",
 									"pm.collectionVariables.set(\"adminAuthToken\", \"Bearer \" + responseBody.token);",
 									""
 								],
@@ -82,7 +82,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseBody = pm.response.json();",
+									"var responseBody = pm.response.json();",
 									"pm.collectionVariables.set(\"notAdminAuthToken\", \"Bearer \" + responseBody.token);",
 									""
 								],
@@ -591,7 +591,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -650,7 +650,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"secondUserId\", responseBody.id);",
 													""
 												],
@@ -977,7 +977,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -1145,7 +1145,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -1444,7 +1444,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -1872,18 +1872,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -2072,18 +2066,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -2101,9 +2089,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
-													"const userId = responseBody.id;",
-													"",
+													"var responseBody = pm.response.json();",
+													"var userId = responseBody.id;",
 													"pm.collectionVariables.set('firstUserId', userId);",
 													""
 												],
@@ -2165,7 +2152,6 @@
 													"pm.test(\"Should return 200 and isAdmin and isActivated Should be `false` when Not Passed - POST /users\", function () {",
 													"    const responseBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
-													"",
 													"    pm.expect(responseBody.isAdmin).to.equal(false);",
 													"    pm.expect(responseBody.isActivated).to.equal(false);",
 													"});"
@@ -2319,18 +2305,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -2484,9 +2464,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"",
-													"const responseBody = pm.response.json();",
-													"const userId = responseBody.id;",
+													"var responseBody = pm.response.json();",
+													"var userId = responseBody.id;",
 													"pm.collectionVariables.set('firstUserId', userId);"
 												],
 												"type": "text/javascript",
@@ -2546,9 +2525,9 @@
 												"exec": [
 													"pm.test(\"lastUpdated Field Should Be Set to Date.now even if Field passed in request - POST /users\", function () {",
 													"    const responseBody = pm.response.json();",
+													"    ",
 													"    pm.response.to.have.status(200);",
-													"",
-													"    pm.expect(responseBody.lastUpdated).to.not.eql(pm.variables.get('2025-01-01'));",
+													"    pm.expect(responseBody.lastUpdated).to.not.eql('2025-01-01');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2836,18 +2815,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -2910,18 +2883,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -2984,18 +2951,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/users?Authorization",
+											"raw": "{{baseUrl}}/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"users"
-											],
-											"query": [
-												{
-													"key": "Authorization",
-													"value": null
-												}
 											]
 										}
 									},
@@ -3018,7 +2979,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -3143,7 +3104,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -3458,7 +3419,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -3636,7 +3597,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -3811,11 +3772,12 @@
 									"name": "Create First Test User",
 									"event": [
 										{
-											"listen": "test",
+											"listen": "prerequest",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const randId = Math.floor(Math.random() * 900000000) + 100000000;",
+													"const userEmail = \"email_\" + randId + \"@postman.com\";",
+													"pm.collectionVariables.set(\"userEmail\", userEmail);",
 													""
 												],
 												"type": "text/javascript",
@@ -3823,12 +3785,11 @@
 											}
 										},
 										{
-											"listen": "prerequest",
+											"listen": "test",
 											"script": {
 												"exec": [
-													"const randId = Math.floor(Math.random() * 900000000) + 100000000;",
-													"const userEmail = \"email_\" + randId + \"@postman.com\";",
-													"pm.collectionVariables.set(\"userEmail\", userEmail);",
+													"var responseBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4056,7 +4017,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -4234,7 +4195,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -4412,7 +4373,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -4590,7 +4551,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -4698,7 +4659,7 @@
 									"response": []
 								},
 								{
-									"name": "lastUpdated Filed Should Not be set from Body Copy",
+									"name": "lastUpdated Filed Should Not be set from Body",
 									"event": [
 										{
 											"listen": "test",
@@ -4708,8 +4669,8 @@
 													"    const responseBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"",
-													"    pm.expect(responseBody.lastUpdated).to.not.eql(pm.variables.get('2023-03-09'));",
-													"});2023-03-09"
+													"    pm.expect(responseBody.lastUpdated).to.not.eql('2023-03-09');",
+													"});"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -4731,7 +4692,7 @@
 										"header": [
 											{
 												"key": "Authorization",
-												"value": "{{notAdminAuthToken}}",
+												"value": "{{adminAuthToken}}",
 												"type": "text"
 											}
 										],
@@ -4815,7 +4776,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -4995,7 +4956,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -5175,7 +5136,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -5355,7 +5316,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -5535,7 +5496,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -5720,7 +5681,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -5897,7 +5858,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -6075,7 +6036,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const responseBody = pm.response.json();",
+													"var responseBody = pm.response.json();",
 													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
 													""
 												],
@@ -6183,7 +6144,7 @@
 									"response": []
 								},
 								{
-									"name": "User Data Should be Updated Copy",
+									"name": "User Should Not be Found",
 									"event": [
 										{
 											"listen": "test",
@@ -6237,7 +6198,7 @@
 							]
 						},
 						{
-							"name": "New Folder",
+							"name": "Should return 404 when Id Not Found - DELETE /users/id",
 							"item": [
 								{
 									"name": "Should return 404 when Id Not Found - DELETE /users/id",
@@ -6301,7 +6262,7 @@
 							]
 						},
 						{
-							"name": "New Folder",
+							"name": "Should return 400 when Invalid User Id Format - DELETE /users/id",
 							"item": [
 								{
 									"name": "Should return 400 when Invalid User Id Format - DELETE /users/id",
@@ -6519,6 +6480,10 @@
 		},
 		{
 			"key": "secondUserId",
+			"value": ""
+		},
+		{
+			"key": "kutas",
 			"value": ""
 		}
 	]
