@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "dd7af269-8d31-4b75-ab9f-6fe9db28a568",
-		"name": "API Tests",
+		"_postman_id": "3e5ddf51-7150-4185-a481-810d47ba671b",
+		"name": "final api tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20702890"
 	},
@@ -26,8 +26,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var responseBody = pm.response.json();",
-									"pm.collectionVariables.set(\"adminAuthToken\", \"Bearer \" + responseBody.token);",
+									"const resBody = pm.response.json();",
+									"pm.collectionVariables.set(\"adminAuthToken\", \"Bearer \" + resBody.token);",
 									""
 								],
 								"type": "text/javascript",
@@ -82,8 +82,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var responseBody = pm.response.json();",
-									"pm.collectionVariables.set(\"notAdminAuthToken\", \"Bearer \" + responseBody.token);",
+									"const resBody = pm.response.json();",
+									"pm.collectionVariables.set(\"notAdminAuthToken\", \"Bearer \" + resBody.token);",
 									""
 								],
 								"type": "text/javascript",
@@ -134,9 +134,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 401 when Invalid Token - GET /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(401);",
-													"    pm.expect(responseBody.message).to.eql('Invalid token');",
+													"    pm.expect(resBody.message).to.eql('Invalid token');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -200,9 +200,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Token when Valid Token - GET /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
-													"    pm.expect(responseBody.message).to.eql('Valid token');",
+													"    pm.expect(resBody.message).to.eql('Valid token');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -243,9 +243,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 401 when Token Not Provided - GET /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(401);",
-													"    pm.expect(responseBody.message).to.eql('Token not provided or is wrong');",
+													"    pm.expect(resBody.message).to.eql('Token not provided or is wrong');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -291,9 +291,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 401 when Invalid Credentials - POST /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(401);",
-													"    pm.expect(responseBody.message).to.eql('Invalid email or password');",
+													"    pm.expect(resBody.message).to.eql('Invalid email or password');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -358,9 +358,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Token when Valid Credentials - POST /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
-													"    pm.expect(responseBody).to.have.property(\"token\");",
+													"    pm.expect(resBody).to.have.property(\"token\");",
 													"});"
 												],
 												"type": "text/javascript",
@@ -405,9 +405,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 401 when no Auth  - POST /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(401);",
-													"    pm.expect(responseBody.message).to.eql('Invalid email or password');",
+													"    pm.expect(resBody.message).to.eql('Invalid email or password');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -447,9 +447,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 403 when User is Deactivated - POST /auth\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(403);",
-													"    pm.expect(responseBody.message).to.eql('Account is not activated');",
+													"    pm.expect(resBody.message).to.eql('Account is not activated');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -591,8 +591,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -650,8 +650,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"secondUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"secondUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -710,14 +710,14 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Contain User IDs as Admin User - GET /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    const firstUserId = pm.collectionVariables.get(\"firstUserId\")",
 													"    const secondUserId = pm.collectionVariables.get(\"secondUserId\")",
 													"",
 													"    pm.response.to.have.status(200);",
-													"    pm.expect(responseBody).to.be.an(\"array\");",
+													"    pm.expect(resBody).to.be.an(\"array\");",
 													"",
-													"    const userIds = responseBody.map((user) => user._id);",
+													"    const userIds = resBody.map((user) => user._id);",
 													"    pm.expect(userIds).to.include(firstUserId);",
 													"    pm.expect(userIds).to.include(secondUserId);",
 													"});"
@@ -919,9 +919,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 403 when as Not Admin User - GET /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(403);",
-													"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+													"    pm.expect(resBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -977,8 +977,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"var resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -1145,8 +1145,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"var resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -1205,24 +1205,24 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Contain User Data as Not Admin User - GET /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"",
-													"    pm.expect(responseBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
-													"    pm.expect(responseBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
-													"    pm.expect(responseBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
-													"    pm.expect(responseBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
-													"    pm.expect(responseBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
-													"    pm.expect(responseBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
-													"    pm.expect(responseBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
-													"    pm.expect(responseBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
-													"    pm.expect(responseBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
-													"    pm.expect(responseBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
-													"    pm.expect(responseBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
-													"    pm.expect(responseBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
-													"    pm.expect(responseBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
-													"    pm.expect(responseBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
-													"    pm.expect(responseBody).to.have.property('lastUpdated');",
+													"    pm.expect(resBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
+													"    pm.expect(resBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
+													"    pm.expect(resBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
+													"    pm.expect(resBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
+													"    pm.expect(resBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
+													"    pm.expect(resBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
+													"    pm.expect(resBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
+													"    pm.expect(resBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
+													"    pm.expect(resBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
+													"    pm.expect(resBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
+													"    pm.expect(resBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
+													"    pm.expect(resBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
+													"    pm.expect(resBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
+													"    pm.expect(resBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
+													"    pm.expect(resBody).to.have.property('lastUpdated');",
 													"});",
 													""
 												],
@@ -1331,9 +1331,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 404 when Id Not Found - GET /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(404);",
-													"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+													"    pm.expect(resBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
 													"});",
 													"",
 													""
@@ -1388,9 +1388,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Invalid User Id Format - GET /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+													"    pm.expect(resBody.message).to.eql('Invalid user ID format');",
 													"});",
 													"",
 													""
@@ -1444,8 +1444,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -1504,24 +1504,24 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Contain User Data as Admin User - GET /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"",
-													"    pm.expect(responseBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
-													"    pm.expect(responseBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
-													"    pm.expect(responseBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
-													"    pm.expect(responseBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
-													"    pm.expect(responseBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
-													"    pm.expect(responseBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
-													"    pm.expect(responseBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
-													"    pm.expect(responseBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
-													"    pm.expect(responseBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
-													"    pm.expect(responseBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
-													"    pm.expect(responseBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
-													"    pm.expect(responseBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
-													"    pm.expect(responseBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
-													"    pm.expect(responseBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
-													"    pm.expect(responseBody).to.have.property('lastUpdated');",
+													"    pm.expect(resBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
+													"    pm.expect(resBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
+													"    pm.expect(resBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
+													"    pm.expect(resBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
+													"    pm.expect(resBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
+													"    pm.expect(resBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
+													"    pm.expect(resBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
+													"    pm.expect(resBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
+													"    pm.expect(resBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
+													"    pm.expect(resBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
+													"    pm.expect(resBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
+													"    pm.expect(resBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
+													"    pm.expect(resBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
+													"    pm.expect(resBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
+													"    pm.expect(resBody).to.have.property('lastUpdated');",
 													"});",
 													""
 												],
@@ -1701,9 +1701,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 403 as Not Admin User - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(403);",
-													"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+													"    pm.expect(resBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -1767,9 +1767,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Email already Exists - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('User with this email already exists');",
+													"    pm.expect(resBody.message).to.eql('User with this email already exists');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -1830,9 +1830,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Contract End Time is earlier than Start Time - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('End time cannot be earlier than start time');",
+													"    pm.expect(resBody.message).to.eql('End time cannot be earlier than start time');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -1896,12 +1896,12 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Create new User as Admin User - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"    ",
-													"    pm.expect(responseBody).to.have.property('id');",
-													"    pm.expect(responseBody.message).to.eql(`User has been created with id = ${responseBody.id}`);",
-													"    pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"    pm.expect(resBody).to.have.property('id');",
+													"    pm.expect(resBody.message).to.eql(`User has been created with id = ${resBody.id}`);",
+													"    pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													"});",
 													"",
 													""
@@ -2022,10 +2022,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Required Field is Missing (Name, Surname, Email) - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
 													"    ",
-													"    pm.expect(responseBody.message).to.eql('User validation failed: name: Path `name` is required., surname: Path `surname` is required., email: Path `email` is required.');",
+													"    pm.expect(resBody.message).to.eql('User validation failed: name: Path `name` is required., surname: Path `surname` is required., email: Path `email` is required.');",
 													"});",
 													""
 												],
@@ -2089,8 +2089,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"var userId = responseBody.id;",
+													"const resBody = pm.response.json();",
+													"const userId = resBody.id;",
 													"pm.collectionVariables.set('firstUserId', userId);",
 													""
 												],
@@ -2150,10 +2150,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and isAdmin and isActivated Should be `false` when Not Passed - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
-													"    pm.expect(responseBody.isAdmin).to.equal(false);",
-													"    pm.expect(responseBody.isActivated).to.equal(false);",
+													"    pm.expect(resBody.isAdmin).to.equal(false);",
+													"    pm.expect(resBody.isActivated).to.equal(false);",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2261,10 +2261,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Phone Number `< 9` - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+													"    pm.expect(resBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
 													"});",
 													""
 												],
@@ -2329,10 +2329,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Phone Number `> 14` - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+													"    pm.expect(resBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
 													"});",
 													""
 												],
@@ -2397,10 +2397,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Password is `< 9` Chars - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Password must be at least 9 characters long');",
+													"    pm.expect(resBody.message).to.eql('Password must be at least 9 characters long');",
 													"});",
 													""
 												],
@@ -2464,8 +2464,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"var userId = responseBody.id;",
+													"const resBody = pm.response.json();",
+													"const userId = resBody.id;",
 													"pm.collectionVariables.set('firstUserId', userId);"
 												],
 												"type": "text/javascript",
@@ -2524,10 +2524,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"lastUpdated Field Should Be Set to Date.now even if Field passed in request - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(200);",
-													"    pm.expect(responseBody.lastUpdated).to.not.eql('2025-01-01');",
+													"    pm.expect(resBody.lastUpdated).to.not.eql('2025-01-01');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2635,10 +2635,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
+													"    pm.expect(resBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
 													"});",
 													""
 												],
@@ -2703,10 +2703,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
+													"    pm.expect(resBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
 													"});",
 													""
 												],
@@ -2771,10 +2771,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to birthDate Field - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -2839,10 +2839,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to startTime Field - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -2907,10 +2907,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to endTime Field - POST /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -2979,8 +2979,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -3104,8 +3104,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -3177,9 +3177,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 403 as Not Admin User - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(403);",
-													"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+													"    pm.expect(resBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3286,9 +3286,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 404 when Id Not Found - PUT /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(404);",
-													"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+													"    pm.expect(resBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3353,9 +3353,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Invalid User Id Format - PUT /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+													"    pm.expect(resBody.message).to.eql('Invalid user ID format');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3419,8 +3419,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -3479,9 +3479,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Email already Exists - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('User with this email already exists');",
+													"    pm.expect(resBody.message).to.eql('User with this email already exists');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3597,8 +3597,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -3657,9 +3657,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Contract End Time is earlier than Start Time - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('End time cannot be earlier than start time');",
+													"    pm.expect(resBody.message).to.eql('End time cannot be earlier than start time');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3788,8 +3788,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -3893,24 +3893,24 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Update User as Activated Admin User - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"",
-													"    pm.expect(responseBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
-													"    pm.expect(responseBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
-													"    pm.expect(responseBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
-													"    pm.expect(responseBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
-													"    pm.expect(responseBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
-													"    pm.expect(responseBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
-													"    pm.expect(responseBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
-													"    pm.expect(responseBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
-													"    pm.expect(responseBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
-													"    pm.expect(responseBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
-													"    pm.expect(responseBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
-													"    pm.expect(responseBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
-													"    pm.expect(responseBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
-													"    pm.expect(responseBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
-													"    pm.expect(responseBody).to.have.property('lastUpdated');",
+													"    pm.expect(resBody.name).to.equal(pm.collectionVariables.get(\"userName\"));",
+													"    pm.expect(resBody.surname).to.equal(pm.collectionVariables.get(\"userSurname\"));",
+													"    pm.expect(resBody.email).to.equal(pm.collectionVariables.get(\"userEmail\"));",
+													"    pm.expect(resBody.phoneNumber).to.equal(pm.collectionVariables.get(\"userPhoneNumber\"));",
+													"    pm.expect(resBody.birthDate).to.include(pm.collectionVariables.get(\"userBirthDate\"));",
+													"    pm.expect(resBody.contract.type).to.equal(pm.collectionVariables.get(\"userContractType\"));",
+													"    pm.expect(resBody.contract.salary).to.equal(pm.collectionVariables.get(\"userSalary\"));",
+													"    pm.expect(resBody.contract.position).to.equal(pm.collectionVariables.get(\"userPosition\"));",
+													"    pm.expect(resBody.contract.startTime).to.include(pm.collectionVariables.get(\"userStartTime\"));",
+													"    pm.expect(resBody.contract.endTime).to.include(pm.collectionVariables.get(\"userEndTime\"));",
+													"    pm.expect(resBody.notes).to.equal(pm.collectionVariables.get(\"userNotes\"));",
+													"    pm.expect(resBody.isAdmin).to.equal(pm.collectionVariables.get(\"userIsAdmin\"));",
+													"    pm.expect(resBody.isActivated).to.equal(pm.collectionVariables.get(\"userIsActivated\"));",
+													"    pm.expect(resBody._id).to.equal(pm.collectionVariables.get(\"firstUserId\"));",
+													"    pm.expect(resBody).to.have.property('lastUpdated');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4017,8 +4017,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4077,9 +4077,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Phone Number `< 9` - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+													"    pm.expect(resBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4195,8 +4195,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4255,9 +4255,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Phone Number `> 14` - PUT /users Copy\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
+													"    pm.expect(resBody.message).to.eql('Phone number cannot be shorter than 9 digits or longer than 14');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4373,8 +4373,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4433,9 +4433,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Password is `< 9` Chars - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Password must be at least 9 characters long');",
+													"    pm.expect(resBody.message).to.eql('Password must be at least 9 characters long');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4551,8 +4551,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4666,10 +4666,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"lastUpdated Field Should Be Set to Date.now even if Field passed in request- PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(200);",
 													"",
-													"    pm.expect(responseBody.lastUpdated).to.not.eql('2023-03-09');",
+													"    pm.expect(resBody.lastUpdated).to.not.eql('2023-03-09');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4776,8 +4776,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -4836,10 +4836,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to add Position Filled other than Storekeeper, Accountant, IT - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
+													"    pm.expect(resBody.message).to.eql('Invalid contract position. Allowed values: Storekeeper, Accountant, IT');",
 													"});",
 													""
 												],
@@ -4956,8 +4956,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5016,10 +5016,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to add Contract Type Filled other than Employment, Mandate, B2B - PUT /users\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
+													"    pm.expect(resBody.message).to.eql('Invalid contract type. Allowed values: Employment, Mandate, B2B');",
 													"});",
 													""
 												],
@@ -5136,8 +5136,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5196,10 +5196,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to birthDate Field - PUT /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -5316,8 +5316,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5376,10 +5376,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to startTime Field - PUT /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -5496,8 +5496,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5556,10 +5556,10 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Trying to Add something Other than Date to endTime Field - PUT /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    ",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid date format');",
+													"    pm.expect(resBody.message).to.eql('Invalid date format');",
 													"});",
 													""
 												],
@@ -5681,8 +5681,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5858,8 +5858,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -5918,9 +5918,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 403 as Not Admin User - DELETE /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(403);",
-													"    pm.expect(responseBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
+													"    pm.expect(resBody.message).to.eql('Unauthorized: Only administrators can perform this action');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -6036,8 +6036,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"var responseBody = pm.response.json();",
-													"pm.collectionVariables.set(\"firstUserId\", responseBody.id);",
+													"const resBody = pm.response.json();",
+													"pm.collectionVariables.set(\"firstUserId\", resBody.id);",
 													""
 												],
 												"type": "text/javascript",
@@ -6151,11 +6151,11 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 200 and Delete User as Admin User - DELETE /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(404);",
 													"",
 													"    const userId = pm.variables.get(\"firstUserId\");",
-													"    pm.expect(responseBody.message).to.eql(`User with id = ${userId} not found`);",
+													"    pm.expect(resBody.message).to.eql(`User with id = ${userId} not found`);",
 													"});"
 												],
 												"type": "text/javascript",
@@ -6208,9 +6208,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 404 when Id Not Found - DELETE /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(404);",
-													"    pm.expect(responseBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
+													"    pm.expect(resBody.message).to.eql('User with id = 666b5bfd8e3c464090cb69b8 not found');",
 													"});"
 												],
 												"type": "text/javascript",
@@ -6272,9 +6272,9 @@
 											"script": {
 												"exec": [
 													"pm.test(\"Should return 400 when Invalid User Id Format - DELETE /users/id\", function () {",
-													"    const responseBody = pm.response.json();",
+													"    const resBody = pm.response.json();",
 													"    pm.response.to.have.status(400);",
-													"    pm.expect(responseBody.message).to.eql('Invalid user ID format');",
+													"    pm.expect(resBody.message).to.eql('Invalid user ID format');",
 													"});"
 												],
 												"type": "text/javascript",
