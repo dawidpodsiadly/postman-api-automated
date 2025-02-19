@@ -23,7 +23,9 @@ pipeline {
 
         stage('Run Postman API Tests') {
             steps {
+                dir('postman-api-tests') {
                 sh 'newman run postman-collection.json'
+                }
             }
         }
     }
