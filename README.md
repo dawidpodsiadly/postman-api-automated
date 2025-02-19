@@ -3,7 +3,7 @@
 ## About The Project:
 This project is focused on automating API testing using Postman 👩‍🚀 and running the tests through Jenkins. The project includes a custom-built API server that is used for testing API endpoints. There are 52 API tests, structured in a special way to ensure easy testing and organization.
 
-### Test Structure:
+### Tests Structure:
 The Postman tests are organized into a specific structure:
 
 ```
@@ -36,7 +36,7 @@ The Postman tests are organized into a specific structure:
 2. Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
 3. Under each HTTP method folder, there are subfolders for tests that check different scenarios related to that endpoint and method.
 
-### Dynamic Data:
+### Dynamic Tests Data:
 1. Every time the tests are executed, data is generated randomly to simulate a variety of scenarios and ensure thorough testing. 
 2. The generated data is stored in collection variables, making it accessible for subsequent requests.
 
