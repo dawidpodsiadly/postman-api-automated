@@ -30,7 +30,6 @@ The Postman tests are organized into a specific structure:
 │   └── ...
 └── ...
 ```
-![Jenkins result](images/postman-collection.png)
 
 1. Each folder represents an endpoint (e.g., /auth, /users).
 2. Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
@@ -60,4 +59,4 @@ This approach ensures that both the API server and the Postman tests are handled
 1. Create pipeline script from SCM and pass correct data to the repository.
 2. Build Now.
 
-![Jenkins result](images/jenkins-results.png)
+![Jenkins results](images/jenkins-results.png)
