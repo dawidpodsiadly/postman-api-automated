@@ -17,7 +17,6 @@ pipeline {
                 dir('api') {
                     sh 'npm install'
                     sh 'node server.js &'
-                    sleep 5
                 }
             }
         }
