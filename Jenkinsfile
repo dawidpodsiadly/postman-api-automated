@@ -16,31 +16,25 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
+                    sh 'node server.js &'
+                    sleep 5
                 }
             }
         }
 
-        stage('Run API Server') {
-            steps {
-                script {
-                    sh 'node api/server.js &'
-                    sleep 10
-                }
-            }
-        }
+        // stage('Run API Server') {
+        //     steps {
+        //         script {
+        //             sh 'node api/server.js &'
+        //             sleep 5
+        //         }
+        //     }
+        // }
 
         stage('Run Postman Tests') {
             steps {
                 sh 'newman run postman-collection.json'
             }
         }
-
-        // stage('Stop API Server') {
-        //     steps {
-        //         script {
-        //             sh 'pkill -f "node server.js"'
-        //         }
-        //     }
-        // }
     }
 }
