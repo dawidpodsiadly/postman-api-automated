@@ -32,7 +32,7 @@ pipeline {
                                 return false
                             }
                         }
-                        sh 'newman run postman-collection.json'
+                        sh '../newman run postman-collection.json'
                     }
                 }
             }
