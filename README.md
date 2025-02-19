@@ -5,8 +5,8 @@ This project is focused on automating API testing using Postman 👩‍🚀 and 
 
 ### Test Structure:
 The Postman tests are organized into a specific structure:
+
 ```
-API Tests/
 ├── Setup
 │   ├── Create Admin Auth Token
 │   ├── Create Not Admin Auth Token
@@ -30,6 +30,7 @@ API Tests/
 │   └── ...
 └── ...
 ```
+
 - Each folder represents an endpoint (e.g., /auth, /users).
 - Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
 - Under each HTTP method folder, there are subfolders for tests that check different scenarios related to that endpoint and method.
