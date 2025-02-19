@@ -14,7 +14,7 @@ pipeline {
 
         stage('Run API Server') {
             steps {
-                dir('api') {
+                dir('api-server') {
                     sh 'npm install'
                     sh 'node server.js &'
                 }
