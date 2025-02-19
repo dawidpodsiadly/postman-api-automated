@@ -31,18 +31,20 @@ The Postman tests are organized into a specific structure:
 └── ...
 ```
 
-- Each folder represents an endpoint (e.g., /auth, /users).
-- Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
-- Under each HTTP method folder, there are subfolders for tests that check different scenarios related to that endpoint and method.
+
+1. Each folder represents an endpoint (e.g., /auth, /users).
+2. Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
+3. Under each HTTP method folder, there are subfolders for tests that check different scenarios related to that endpoint and method.
 
 ### Dynamic Data:
-- Every time the tests are executed, data is generated randomly to simulate a variety of scenarios and ensure thorough testing. The generated data is stored in collection variables, making it accessible for subsequent requests.
+1. Every time the tests are executed, data is generated randomly to simulate a variety of scenarios and ensure thorough testing. 
+2. The generated data is stored in collection variables, making it accessible for subsequent requests.
 
 ### Running Postman Tests Using Jenkins:
-- Jenkins manages the entire process in a single pipeline:
-     - The API server is automatically started before the tests.
-     - The Postman tests are executed via Newman once the server is running.
-     - All logs, including those from the API server and test results, are captured and available in Jenkins for review during the pipeline run.
+1. Jenkins manages the entire process in a single pipeline:
+    - The API server is automatically started before the tests.
+    - The Postman tests are executed via Newman once the server is running.
+    - All logs, including those from the API server and test results, are captured and available in Jenkins for review during the pipeline run.
 
 This approach ensures that both the API server and the Postman tests are handled automatically within the same pipeline run, streamlining the testing process and avoiding manual intervention.
 
@@ -55,5 +57,5 @@ This approach ensures that both the API server and the Postman tests are handled
 3. Run Postman tests manually or using Newman `cd postman-api-tests && npx newman run postman-collection.json`.
 
 ### In Jenkins:
-1. Create pipeline script from scm and pass correct data to repository
-2. Build Now
+1. Create pipeline script from SCM and pass correct data to the repository.
+2. Build Now.
