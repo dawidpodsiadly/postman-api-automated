@@ -34,11 +34,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        failure {
-            echo 'Job failed. Stopping the pipeline.'
-            currentBuild.result = 'FAILURE'
-        }
-    }
 }
