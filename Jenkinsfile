@@ -23,7 +23,7 @@ pipeline {
         stage('Run API Server') {
             steps {
                 dir('api') {
-                    sh 'nohup node server.js'
+                    sh 'node server.js'
                 }
             }
         }
@@ -32,6 +32,13 @@ pipeline {
             steps {
                 sh 'newman run postman-collection.json'
             }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Job failed. Stopping the pipeline.'
+            currentBuild.result = 'FAILURE'
         }
     }
 }
