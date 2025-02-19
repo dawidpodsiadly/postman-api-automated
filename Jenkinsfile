@@ -22,17 +22,17 @@ pipeline {
 
         stage('Run API Server and Test Postman') {
             steps {
-                dir('api') {
-                    script {
-                        def serverProcess = sh(script: 'nohup node server.js &', returnStdout: true, start: true)
-                        waitUntil {
-                            try {
-                                sh(script: 'curl -s http://localhost:3050', returnStatus: true) == 0
-                            } catch (Exception e) {
-                                return false
-                            }
+                script {
+                    def serverProcess = sh(script: 'nohup node api/server.js &', returnStdout: true, start: true)
+                    waitUntil {
+                        try {
+                            sh(script: 'curl -s http://localhost:3050', returnStatus: true) == 0
+                        } catch (Exception e) {
+                            return false
                         }
-                        sh '../newman run postman-collection.json'
+                    }
+                    dir('/') {
+                        sh 'newman run postman-collection.json'
                     }
                 }
             }
