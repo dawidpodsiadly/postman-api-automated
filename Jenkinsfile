@@ -20,18 +20,30 @@ pipeline {
             }
         }
 
-        stage('Run API Server') {
+        stage('Run API Server and Test Postman') {
             steps {
                 dir('api') {
-                    sh 'node server.js'
+                    script {
+                        def serverProcess = sh(script: 'nohup node server.js &', returnStdout: true, start: true)
+                        waitUntil {
+                            try {
+                                sh(script: 'curl -s http://localhost:3050', returnStatus: true) == 0
+                            } catch (Exception e) {
+                                return false
+                            }
+                        }
+                        sh 'newman run postman-collection.json'
+                    }
                 }
             }
         }
 
-        stage('Run Postman Collection') {
-            steps {
-                sh 'newman run postman-collection.json'
-            }
-        }
+        // stage('Stop API Server') {
+        //     steps {
+        //         script {
+        //             sh 'pkill -f "node server.js"'
+        //         }
+        //     }
+        // }
     }
 }
