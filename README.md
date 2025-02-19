@@ -30,7 +30,7 @@ The Postman tests are organized into a specific structure:
 │   └── ...
 └── ...
 ```
-
+![Jenkins result](images/postman-collection)
 
 1. Each folder represents an endpoint (e.g., /auth, /users).
 2. Under each endpoint folder, there are subfolders for each HTTP method (e.g., GET, POST).
@@ -40,7 +40,7 @@ The Postman tests are organized into a specific structure:
 1. Every time the tests are executed, data is generated randomly to simulate a variety of scenarios and ensure thorough testing. 
 2. The generated data is stored in collection variables, making it accessible for subsequent requests.
 
-### Running Postman Tests Using Jenkins:
+### About Jenkins in project:
 1. Jenkins manages the entire process in a single pipeline:
     - The API server is automatically started before the tests.
     - The Postman tests are executed via Newman once the server is running.
@@ -59,3 +59,5 @@ This approach ensures that both the API server and the Postman tests are handled
 ### In Jenkins:
 1. Create pipeline script from SCM and pass correct data to the repository.
 2. Build Now.
+
+![Jenkins result](images/jenkins-result)
