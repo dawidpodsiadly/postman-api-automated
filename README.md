@@ -60,4 +60,4 @@ This approach ensures that both the API server and the Postman tests are handled
 1. Create pipeline script from SCM and pass correct data to the repository.
 2. Build Now.
 
-![Jenkins result](images/jenkins-result.png)
+![Jenkins result](images/jenkins-results.png)
