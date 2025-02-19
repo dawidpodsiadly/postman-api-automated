@@ -12,7 +12,7 @@ pipeline {
             }
         }
 
-        stage('Install API Server') {
+        stage('Run API Server') {
             steps {
                 dir('api') {
                     sh 'npm install'
@@ -21,16 +21,7 @@ pipeline {
             }
         }
 
-        // stage('Run API Server') {
-        //     steps {
-        //         script {
-        //             sh 'node api/server.js &'
-        //             sleep 5
-        //         }
-        //     }
-        // }
-
-        stage('Run Postman Tests') {
+        stage('Run Postman API Tests') {
             steps {
                 sh 'newman run postman-collection.json'
             }
