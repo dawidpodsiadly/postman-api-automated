@@ -20,15 +20,18 @@ pipeline {
             }
         }
 
-        stage('Run API Server and Test Postman') {
+        stage('Run API Server') {
             steps {
                 script {
                     sh 'node api/server.js &'
-                    sleep 20
-                    dir('/') {
-                        sh 'newman run postman-collection.json'
-                    }
+                    sleep 10
                 }
+            }
+        }
+
+        stage('Run Postman Tests') {
+            steps {
+                sh 'newman run postman-collection.json'
             }
         }
 
