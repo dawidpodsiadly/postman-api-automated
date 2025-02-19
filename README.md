@@ -1,4 +1,2 @@
-Work in progress...
-
-TO DO:
-  1. Add Postman collection to run on CI/CD + API server
+## About The Project:
+This project is focused on automating API testing using Postman 👩‍🚀 and running the tests through Jenkins.
