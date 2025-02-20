@@ -1,7 +1,7 @@
 # API Testing with Postman and Jenkins
 
 ## About The Project:
-This project is focused on automating API testing using Postman 👩‍🚀 and running the tests through Jenkins. The project includes a custom-built API server that is used for testing API endpoints. There are 52 API tests, structured in a special way to ensure easy testing and organization.
+This project is focused on automating API testing using Postman 👩‍🚀 and running the tests through Jenkins. The project includes a self-made API server that is used for testing API endpoints. There are 52 API tests, structured in a special way to ensure easy testing and organization.
 
 ### Tests Structure:
 The Postman tests are organized into a specific structure:
