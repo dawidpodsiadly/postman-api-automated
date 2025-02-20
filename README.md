@@ -36,16 +36,16 @@ The Postman tests are organized into a specific structure:
 3. Under each HTTP method folder, there are subfolders for tests that check different scenarios related to that endpoint and method.
 
 ### Dynamic Tests Data:
-1. Every time the tests are executed, data is generated randomly to simulate a variety of scenarios and ensure thorough testing. 
+1. Every time the tests are executed, data is generated randomly to simulate a variety of scenarios.
 2. The generated data is stored in collection variables, making it accessible for subsequent requests.
 
 ### About Jenkins in project:
 1. Jenkins manages the entire process in a single pipeline:
     - The API server is automatically started before the tests.
     - The Postman tests are executed via Newman once the server is running.
-    - All logs, including those from the API server and test results, are captured and available in Jenkins for review during the pipeline run.
+    - All logs are captured and available in Jenkins
 
-This approach ensures that both the API server and the Postman tests are handled automatically within the same pipeline run, streamlining the testing process and avoiding manual intervention.
+This approach ensures that both the API server and the Postman tests are handled automatically within the same pipeline run avoiding manual intervention.
 
 ---
 
